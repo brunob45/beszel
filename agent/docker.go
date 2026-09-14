@@ -538,8 +538,12 @@ func (dm *dockerManager) updateContainerStats(ctr *container.ApiInfo, cacheTimeM
 	stats.Status = statusText
 	stats.Health = health
 
-	stats.Image = ctr.Image
 	stats.UpdateAvailable = updateAvailable
+	if stats.UpdateAvailable {
+		stats.Image = "↑" + ctr.Image
+	} else {
+		stats.Image = ctr.Image
+	}
 
 	if len(ctr.Ports) > 0 {
 		stats.Ports = convertContainerPortsToString(ctr)
